@@ -26,6 +26,8 @@ small_link_path = os.path.join(python_file_path, 'src', '20220730小路网toyyh'
 def generate_task(div_num):
     if not os.path.exists(os.path.join(python_file_path, 'log')):
         os.mkdir(os.path.join(python_file_path, 'log'))
+    if not os.path.exists(os.path.join(python_file_path, 'result')):
+        os.mkdir(os.path.join(python_file_path, 'result'))
     mid_points = np.load(mid_points_path, allow_pickle=True)
     task_info = {
         "tasks": [],
