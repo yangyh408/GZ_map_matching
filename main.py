@@ -1,20 +1,21 @@
 # -*- coding:utf-8 -*-
-import pandas as pd
-import numpy as np
-# import matplotlib.pyplot as plt
-# import transbigdata as tbd
-from leuvenmapmatching import visualization as mmviz
-from leuvenmapmatching.matcher.distance import DistanceMatcher
-from leuvenmapmatching.map.inmem import InMemMap
-import geopandas as gpd
 import json
 import os
 import warnings
+
+import geopandas as gpd
+import numpy as np
+import pandas as pd
+# import matplotlib.pyplot as plt
+# import transbigdata as tbd
+from leuvenmapmatching import visualization as mmviz
+from leuvenmapmatching.map.inmem import InMemMap
+from leuvenmapmatching.matcher.distance import DistanceMatcher
+
 warnings.filterwarnings("ignore")
 
 mid_points_path = os.path.join('.', 'src', 'mid_points.npy')
 task_path = os.path.join('.', 'log', 'task_info.json')
-result_path = os.path.join('.', 'result', 'result.json')
 big_node_path = os.path.join('.', 'src', '20220730大路网toyyh', 'node_l_7featuresdone.shx')
 big_link_path = os.path.join('.', 'src', '20220730大路网toyyh', 'link_l_7featuresdone.shx')
 small_node_path = os.path.join('.', 'src', '20220730小路网toyyh', 'node_s_5turningdone.shx')
@@ -192,7 +193,7 @@ def load_result():
     os.system('clear')
     try:
         task_info = load_json(task_path)
-        match_result = load_json(result_path)
+        match_result = load_json(os.path.join('.', 'result', f'result_task{task_info["my_task"]}.json'))
         print(f"You're running task {task_info['my_task']} with process "
               f"{'%.2f' % ((task_info['cur_num']-task_info['start_num'])/(task_info['end_num']-task_info['start_num'])*100)}% ({task_info['cur_num']-task_info['start_num']}"
               f"/{task_info['end_num']-task_info['start_num']})")
@@ -210,7 +211,7 @@ def load_result():
         save_json(task_info, task_path)
         print(f"You're running task {task_info['my_task']} [index from {task_info['start_num']}--{task_info['end_num']}]")
         match_result = {}
-        save_json(match_result, result_path)
+        save_json(match_result, os.path.join('.', 'result', f'result_task{task_info["my_task"]}.json'))
     finally:
         return task_info, match_result
 
@@ -244,7 +245,7 @@ def batch_match():
         print("[{}]{:^5.2f}%".format(finish, 100))
         print("matching done!")
     finally:
-        save_json(match_result, result_path)
+        save_json(match_result, os.path.join('.', 'result', f'result_task{task_info["my_task"]}.json'))
         task_info['cur_num'] = int(list(match_result.keys())[-1]) + 1
         save_json(task_info, task_path)
 
