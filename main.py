@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import json
 import os
+import platform
 import warnings
 
 import geopandas as gpd
@@ -56,6 +57,13 @@ def load_json(path):
         return dict
     
     
+def clean_screen():
+    if platform.system() == 'Windows':
+        os.system('cls')
+    else:
+        os.system('clear')    
+
+
 def init_map():
     node_gdf_big = gpd.read_file(big_node_path)
     link_gdf_big = gpd.read_file(big_link_path)
@@ -195,7 +203,7 @@ def single_match(plot_num, show_image=True):
 
 
 def load_result():
-    os.system('clear')
+    clean_screen()
     try:
         task_info = load_json(task_path)
         match_result = load_json(os.path.join(python_file_path, 'result', f'result_task{task_info["my_task"]}.json'))
@@ -232,7 +240,7 @@ def batch_match():
         task_num = task_info['end_num'] - task_info['start_num']
         for plot_num in range(task_info['cur_num'], task_info['end_num']):
             if plot_num == task_info['cur_num'] or plot_num % 100 == 0:
-                os.system('clear')
+                clean_screen()
                 cur_num = plot_num-task_info['start_num']
                 match_rate = cur_num / task_num
                 finish = "▓" * int(match_rate*80)
@@ -245,7 +253,7 @@ def batch_match():
                 match_result[str(plot_num)] = []
                 continue
             match_result[str(plot_num)] = map_matching(map_con, path)
-        os.system('clear')
+        clean_screen()
         finish = "▓" * 100
         print("[{}]{:^5.2f}%".format(finish, 100))
         print("matching done!")

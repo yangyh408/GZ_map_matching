@@ -6,7 +6,8 @@
 
 1.   如在本机环境中已经配置好anaconda（建议）
      +   在项目文件夹中打开终端
-     +   运行指令：`bash run.sh`
+     +   windows系统运行指令：`bash run_win.sh`
+     +   macOS系统运行指令：`bash run_mac.sh`
 2.   如未配置anaconda，则直接导入python3所需库
      +   在项目文件夹中打开终端
      +   运行指令：`pip3 install -r requirements.txt`
