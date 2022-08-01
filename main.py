@@ -246,6 +246,11 @@ def batch_match():
                 finish = "▓" * int(match_rate*80)
                 need_do = "-" * (80 - int(match_rate))
                 print("[{}->{}]{:^4.2f}%({}/{})".format(finish, need_do, match_rate*100, cur_num, task_num))
+                
+            if plot_num % 1000 == 0 and plot_num != task_info['cur_num']:
+                save_json(match_result, os.path.join(python_file_path, 'result', f'result_task{task_info["my_task"]}.json'))
+                task_info['cur_num'] = int(list(match_result.keys())[-1]) + 1
+                save_json(task_info, task_path)
 
             # print(f"[{plot_num}] --> ", end="")
             tmp_gdf, path = get_path(mid_points[plot_num])
